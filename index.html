@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript Video Controls</title>
+	<link rel="stylesheet" type="text/css" href="css/video.css">
+</head>
+<body> 
+<main>
+	<h1>JavaScript Video Controls</h1>
+	<div class = "options">
+		<button onclick='play()' id = "play">Play Video</button>
+		<button onclick='pause()' id = "pause">Pause Video</button>
+		<button onclick='slow_down()' id = "slower">Slow Down</button>
+		<button onclick='speed_Up()' id = "faster">Speed Up</button>
+		<button onclick='skip_ahead()' id = "skip">Skip Ahead</button>
+	</div>
+
+	<figure>
+
+		<video class = "video" 
+			autoplay="false" 
+			width="640" 
+			height="360" 
+			id="player1" 
+			preload="none"
+			src="assets/marchingband.mov">
+			  
+		    <track src="captions_en.vtt" kind="captions" srclang="en" label="english_captions">	
+		  		Your browser does not support HTML5 video.
+		</video>
+		<figcaption>[The Michigan Marching Band]</figcaption>
+		</figure> 
+	<button onclick='mute()' id="mute">Mute</button><br>
+
+	<label for="slider">Volume</label>: 0 <input oninput='set_volume()' type="range" id="slider" min="0" max="100" value="100" step="10"> 100%<br>
+	<div>Volume is: <span id = "volume"> </span><br><br></div>
+
+	<button onclick='look_old()' id = "vintage">Old School</button>
+	<button onclick='original()' id = "orig">Original</button>
+
+	<p>Video courtesy of Allison Sweet.</p>
+
+</main>
+<script>
+	var vid = document.getElementById('player1');
+	var videoVolume = document.getElementById('volume');
+	var MuteButton = document.getElementById('mute');
+	var volumeslider = document.getElementById('slider');
+
+//--------------------------------------------------------------//
+	function play(){
+		console.log('Play Button');
+		vid.play();
+		// Step 2 - Update the text for volume
+		videoVolume.innerHTML = vid.volume * 100 + '%';
+	}
+	//--------------------------------------------------------------//
+	function pause() {
+		console.log('Pause Button');
+		vid.pause();
+	}
+	//--------------------------------------------------------------//
+	function mute() {
+		if (vid.muted === false) {
+			console.log('Video Muted');
+			vid.muted = true;
+			MuteButton.innerHTML = 'Unmute';
+		}
+		else {
+			console.log('Video Unmuted');
+			vid.muted = false;
+			MuteButton.innerHTML = 'Mute';
+		};
+	}
+	//--------------------------------------------------------------//
+	function set_volume() {
+		vid.volume = volumeslider.value / 100;
+		videoVolume.innerHTML = vid.volume * 100 + '%';
+		console.log('volume', videoVolume.innerHTML);
+	}
+	//--------------------------------------------------------------//
+	function speed_Up() {
+		current_speed = vid.playbackRate;
+		vid.playbackRate = current_speed * 1.05;
+		current_speed = vid.playbackRate;
+		console.log('Playback Speed', current_speed);
+	}
+	//--------------------------------------------------------------//
+	function slow_down() {
+		current_speed = vid.playbackRate;
+		vid.playbackRate = current_speed / 1.05;
+		current_speed = vid.playbackRate;
+		console.log('Playback Speed', current_speed);
+	}
+	//--------------------------------------------------------------//
+	function skip_ahead() {
+		time = vid.currentTime
+		vid.currentTime = time + 15;
+		if (vid.currentTime >= 67) {
+			vid.currentTime = 0
+		};
+		console.log('Current Time', vid.currentTime);
+	}
+	//--------------------------------------------------------------//
+	function look_old() {
+		vid.classList.add('oldSchool');
+	}
+	//--------------------------------------------------------------//
+	function original() {
+		vid.classList.remove('oldSchool');
+	}
+</script>
+</body> 
+</html>
